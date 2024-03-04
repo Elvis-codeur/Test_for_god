@@ -1,0 +1,36 @@
+version: '3.14'
+
+services:
+  django_gunicorn1:
+    image: django_test_app
+    ports:
+      - 8050:8050
+    environment:
+      - port_number=8050
+      - number=1
+    volumes:
+      - static1:/static1
+
+  django_gunicorn2:
+    image: django_test_app
+    ports:
+      - 8090:8090
+    environment:
+      - port_number=8090
+      - number=2
+    
+    volumes:
+      - static2:/static2
+
+  nginx_app:
+    build: 
+      context: ./nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - django_gunicorn1
+      - django_gunicorn2
+
+volumes:
+  static1:
+  static2:

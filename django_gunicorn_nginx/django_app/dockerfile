@@ -1,0 +1,14 @@
+FROM python:latest
+
+RUN mkdir /home/app_workdir
+WORKDIR /home/app_workdir
+COPY . .
+
+RUN apt-get update
+RUN apt-get install -y nano
+
+
+RUN sh /home/app_workdir/commands.sh
+
+RUN chmod +x /home/app_workdir/testdjangoapp/start_server.sh
+CMD [ "/home/app_workdir/testdjangoapp/start_server.sh" ]
